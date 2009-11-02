@@ -14,6 +14,7 @@ class AmazonZoomExtractor
   
   def initialize(url)
     @url = url
+    puts "Getting #{@url}"
   end
   
   DYNAPI_FIELDS.each do |field|
@@ -80,6 +81,7 @@ class AmazonZoomExtractor
   def combine(big_name="big.jpg")
     tile = "#{tiles_across}x#{tiles_down}"
     %x|montage #{tmp_path}/*.jpg -tile #{tile} -geometry -0-0 #{big_name}|
+    puts "Made #{big_name} from #{@url}"
   end
   
   def cleanup
