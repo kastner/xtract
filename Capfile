@@ -1,4 +1,6 @@
-role :server, "metaatem"
+set :servers, %w|metaatem|
+role :web, *servers
+role :app, *servers
 
 set :deploy_to,  "/var/www/xtract.metaatem.net"
 set :scm,        :git
@@ -35,7 +37,7 @@ namespace :deploy do
   desc "Update the deployed code."
   task :update_code, :except => { :no_release => true } do
     run "cd #{deploy_to}; git fetch origin; git reset --hard #{branch}"
-    finalize_update
+    # finalize_update
   end
   
   desc "Restarting mod_rails with restart.txt"
