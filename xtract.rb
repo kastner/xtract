@@ -1,3 +1,3 @@
 get "/" do
-  "Hi"
+  "Hi there"
 end
