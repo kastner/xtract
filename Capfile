@@ -37,6 +37,7 @@ namespace :deploy do
   desc "Update the deployed code."
   task :update_code, :except => { :no_release => true } do
     run "cd #{deploy_to}; git fetch origin; git reset --hard #{branch}"
+    run "chmod g+w -R #{deploy_to}/public"
     # finalize_update
   end
   
