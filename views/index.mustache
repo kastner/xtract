@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta http-equiv="Content-type" content="text/html; charset=utf-8">
+  <title>Extract Image</title>
+  <script src="http://ajax.googleapis.com/ajax/libs/jquery/1/jquery.min.js" type="text/javascript" charset="utf-8"></script>
+</head>
+<body>
+  <form action="/extract" method="post">
+    <div>
+      <label for="url">Url:</label>
+      <input type="text" id="name" name="url">
+    </div>
+    <div>
+      <label for="file_name">Name (for the end file - no extension):</label>
+      <input type="text" name="file_name" id="file_name">      
+    </div>
+    <div>
+      <input type="submit" id="submit-button" value="extract">
+    </div>
+  </form>
+  <script>
+    $("form").submit(function() {
+      $("#submit-button").attr("value", "Extracting...");
+      $("#submit-button").attr("disabled", "diabled");
+      return true;
+    });
+  </script>
+</body>
+</html>
