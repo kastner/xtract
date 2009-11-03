@@ -3,7 +3,7 @@ require 'fileutils'
 
 class AmazonZoomExtractor
   USER_AGENT = "Mozilla/5.0 (Macintosh; U; Intel Mac OS X 10.5; en-US; rv:1.9.1.2) Gecko/20090729 Firefox/3.5.2"
-  DYNAPI_FIELDS = %w|max_zoom_level tile_size image_str width height version|
+  DYNAPI_FIELDS = %w{max_zoom_level tile_size image_str width height version}
   
   def self.extract(url, big_name="big.jpg")
     az = new(url)
@@ -74,13 +74,13 @@ class AmazonZoomExtractor
     
     image_urls.each_with_index do |image, i|
       local_image = "#{tmp_path}/%04d.jpg" % i
-      %x|curl "#{image}" -o #{local_image}|
+      %x{curl "#{image}" -o #{local_image}}
     end
   end
   
   def combine(big_name="big.jpg")
     tile = "#{tiles_across}x#{tiles_down}"
-    %x|montage #{tmp_path}/*.jpg -tile #{tile} -geometry -0-0 #{big_name}|
+    %x{montage #{tmp_path}/*.jpg -tile #{tile} -geometry -0-0 #{big_name}}
     puts "Made #{big_name} from #{@url}"
   end
   
