@@ -3,7 +3,7 @@ require 'fileutils'
 
 class AmazonZoomExtractor
   USER_AGENT = "Mozilla/5.0 (Macintosh; U; Intel Mac OS X 10.5; en-US; rv:1.9.1.2) Gecko/20090729 Firefox/3.5.2"
-  DYNAPI_FIELDS = %w|max_zoom_level tile_size image_str width height version|
+  DYNAPI_FIELDS = %w{max_zoom_level tile_size image_str width height version}
   
   def self.extract(url, big_name="big.jpg")
     az = new(url)
