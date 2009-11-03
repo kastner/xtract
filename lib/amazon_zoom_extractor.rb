@@ -1,6 +1,5 @@
 require 'open-uri'
 require 'fileutils'
-require 'ostruct'
 require 'forwardable'
 
 class AmazonZoomExtractor
@@ -66,7 +65,7 @@ class AmazonZoomExtractor
               new\sMediaServicesZoom[^\n]+\s(\d+)\);\s+
               DynAPI.addZoomViewer\("(.+?)",\d+,\d+,(\d+),(\d+),(\d+),/xm
     capture = page.scan(cap_re)[0]
-    @dynapi_fields ||= OpenStruct.new(Hash[*DYNAPI_FIELDS.zip(capture).flatten])
+    @dynapi_fields ||= Struct.new(*DYNAPI_FIELDS).new(*capture)
   end
   
   def fetch
