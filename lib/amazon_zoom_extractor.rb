@@ -36,7 +36,7 @@ class AmazonZoomExtractor
   end
   
   def variant
-    image_str_fields.last
+    image_str_fields[2] || "MAIN"
   end
   
   def image_str_fields
