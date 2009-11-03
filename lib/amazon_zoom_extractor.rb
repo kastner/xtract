@@ -1,10 +1,16 @@
 require 'open-uri'
 require 'fileutils'
+require 'ostruct'
+require 'forwardable'
 
 class AmazonZoomExtractor
+  extend Forwardable
+
   USER_AGENT = "Mozilla/5.0 (Macintosh; U; Intel Mac OS X 10.5; en-US; rv:1.9.1.2) Gecko/20090729 Firefox/3.5.2"
   DYNAPI_FIELDS = %w{max_zoom_level tile_size image_str width height version}
-  
+
+  def_delegators :dynapi_fields, *DYNAPI_FIELDS
+
   def self.extract(url, big_name="big.jpg")
     az = new(url)
     az.fetch
@@ -15,12 +21,6 @@ class AmazonZoomExtractor
   def initialize(url)
     @url = url
     puts "Getting #{@url}"
-  end
-  
-  DYNAPI_FIELDS.each do |field|
-    define_method(field) do
-      dynapi_fields[field]
-    end
   end
   
   def page
@@ -66,7 +66,7 @@ class AmazonZoomExtractor
               new\sMediaServicesZoom[^\n]+\s(\d+)\);\s+
               DynAPI.addZoomViewer\("(.+?)",\d+,\d+,(\d+),(\d+),(\d+),/xm
     capture = page.scan(cap_re)[0]
-    @dynapi_fields ||= Hash[*DYNAPI_FIELDS.zip(capture).flatten]
+    @dynapi_fields ||= OpenStruct.new(Hash[*DYNAPI_FIELDS.zip(capture).flatten])
   end
   
   def fetch
