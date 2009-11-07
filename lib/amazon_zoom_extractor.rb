@@ -19,7 +19,7 @@ class AmazonZoomExtractor
   
   def initialize(url)
     @url = url
-    puts "Getting #{@url}"
+    # puts "Getting #{@url}"
   end
   
   def page
@@ -65,7 +65,7 @@ class AmazonZoomExtractor
               new\sMediaServicesZoom[^\n]+\s(\d+)\);\s+
               DynAPI.addZoomViewer\("(.+?)",\d+,\d+,(\d+),(\d+),(\d+),/xm
     capture = page.scan(cap_re)[0]
-    @dynapi_fields ||= Struct.new(*DYNAPI_FIELDS).new(*capture)
+    @dynapi_fields ||= Struct.new("Cap#{rand(1000)}", *DYNAPI_FIELDS).new(*capture)
   end
   
   def fetch
@@ -73,6 +73,7 @@ class AmazonZoomExtractor
     
     image_urls.each_with_index do |image, i|
       local_image = "#{tmp_path}/%04d.jpg" % i
+      $stderr.puts "Fetching #{image}"
       %x{curl "#{image}" -o #{local_image}}
     end
   end
